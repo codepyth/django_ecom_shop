@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Product(models.Model):
     name = models.CharField(max_length=100)
     price = models.FloatField()
-    image = models.ImageField(upload_to='images')
+    image = models.ImageField(upload_to='images', blank=True, null=True)
     product_id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
 
     def __str__(self):
@@ -20,6 +20,17 @@ class Cart(models.Model):
     def __str__(self):
         return self.owner.username
     
+    @property
+    def grandtotal(self):
+        cartitems = self.cartitems_set.all()
+        total = sum([item.subtotal for item in cartitems])
+        return total
+
+    @property
+    def cartquantity(self):
+        cartitems = self.cartitems_set.all()
+        total = sum([item.quantity for item in cartitems])
+        return total
     
 
 class Cartitems(models.Model):
