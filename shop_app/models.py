@@ -43,5 +43,5 @@ class Cartitems(models.Model):
 
     @property
     def subtotal(self):
-        total = self.quantity * self.product.price
+        total = float(self.quantity) * self.product.price
         return total

@@ -50,15 +50,12 @@
                 <a class="nav-link active" aria-current="page" href=""><h4></h4></a>
               </li>
             </ul>
-            
               <a href = " {% url 'cart' %} ">
                 <div class ='cart_container'>
-                <img src = "{% static 'image/cart1.png' %}">
-                <div class = 'cart-item-count' id = 'cart'><h4>{{cart.cartquantity}}</h4></div>
-            </div>
-          </a> 
-           
-            
+                  <img src = "{% static 'image/cart1.png' %}">
+                  <div class = 'cart-item-count' id = 'cart'><h4>{{cart.cartquantity}}</h4></div>
+                </div>
+              </a> 
           </div>
         </div>
       </nav>
