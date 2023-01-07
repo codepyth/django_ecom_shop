@@ -16,6 +16,59 @@
                   </div>
                   
                   <div id="paypal-button-container"></div>
+        <!-- Sample PayPal credentials (client-id) are included -->
+        <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD&intent=capture&enable-funding=venmo" data-sdk-integration-source="integrationbuilder"></script>
+        <script>
+          const paypalButtonsComponent = paypal.Buttons({
+              // optional styling for buttons
+              // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+              style: {
+                color: "gold",
+                shape: "rect",
+                layout: "vertical"
+              },
+
+              // set up the transaction
+              let total = "{{cart.grandtotal}}"
+              createOrder: (data, actions) => {
+                  // pass in any options from the v2 orders create call:
+                  // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
+                  const createOrderPayload = {
+                      purchase_units: [
+                          {
+                              amount: {
+                                  value: parseFloat(total).toFixed(2)
+                              }
+                          }
+                      ]
+                  };
+
+                  return actions.order.create(createOrderPayload);
+              },
+
+              // finalize the transaction
+              onApprove: (data, actions) => {
+                  const captureOrderHandler = (details) => {
+                      const payerName = details.payer.name.given_name;
+                      console.log('Transaction completed');
+                  };
+
+                  return actions.order.capture().then(captureOrderHandler);
+                  
+              },
+
+              // handle unrecoverable errors
+              onError: (err) => {
+                  console.error('An error prevented the buyer from checking out with PayPal');
+              }
+          });
+
+          paypalButtonsComponent
+              .render("#paypal-button-container")
+              .catch((err) => {
+                  console.error('PayPal Buttons failed to render');
+              });
+        </script>
 
                 </form>
                 
@@ -55,9 +108,7 @@
                    {% endfor %}
                     
                   </tbody>
-                </table></div></div>
-
-          
+                </table></div></div>   
       </div>
     </div>
 </div>
@@ -66,7 +117,7 @@
 
 
     <!-- Include the PayPal JavaScript SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=Adh8N0QDhyBTaQWh54Bmds8OoW49RaGEkuvQdD2vqgptO9rqwhMeKd0IL42lX3eJsbz9ewywzKZFRofh&currency=USD"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AV2oL6ORCR__g9M55LXJYf8YFM1Si-F8oaMRHcCB5z7q1uMADTTa64bNAeffIicuMz4huEKeYaQqTjhD&currency=USD"></script>
 
     <script>
         // Render the PayPal button into #paypal-button-container

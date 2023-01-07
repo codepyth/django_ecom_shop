@@ -87,3 +87,20 @@ def updateQuantity(request):
         }
 
     return JsonResponse(msg, safe=False)
+
+
+def checkout(request):
+    if request.user.is_authenticated:
+        customer =request.user
+        cart, created = Cart.objects.get_or_create(owner=customer, completed=False)
+        cartitems = cart.cartitems_set.all()
+    else:
+        cart = []
+        cartitems = []
+        cart = {'cartquantity': 0}
+    context = {'cart': cart, 'cartitems': cartitems}
+    return render(request, 'cart/checkout.html', context)
+
+
+def payment(request):
+    return JsonResponse('Payment is working', safe=False)
