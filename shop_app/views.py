@@ -103,4 +103,5 @@ def checkout(request):
 
 
 def payment(request):
+
     return JsonResponse('Payment is working', safe=False)

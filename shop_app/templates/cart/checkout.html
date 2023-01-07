@@ -117,9 +117,9 @@
 
 
     <!-- Include the PayPal JavaScript SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AV2oL6ORCR__g9M55LXJYf8YFM1Si-F8oaMRHcCB5z7q1uMADTTa64bNAeffIicuMz4huEKeYaQqTjhD&currency=USD"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=AV2oL6ORCR__g9M55LXJYf8YFM1Si-F8oaMRHcCB5z7q1uMADTTa64bNAeffIicuMz4huEKeYaQqTjhD&currency=USD"></script>
 
-    <script>
+<script>
         // Render the PayPal button into #paypal-button-container
         let total = "{{cart.grandtotal}}"
         console.log(total)
@@ -152,40 +152,35 @@
                     // element.innerHTML = '<h3>Thank you for your payment!</h3>';
                     // Or go to another URL:  actions.redirect('thank_you.html');
                 });
-            }
+        }
+    }).render('#paypal-button-container');
+</script>
 
-
-        }).render('#paypal-button-container');
-    </script>
-
-    <script>
+<script>
       function makepayment(){
 
         const data = { cart_total: total };
 
         let url = " {% url 'payment' %} "
 
-fetch(url, {
-  method: 'POST', // or 'PUT'
-  headers: {
-    'Content-Type': 'application/json',
-    'X-CSRFToken': csrftoken
-  },
-  body: JSON.stringify(data),
-})
-.then(response => response.json())
-.then(data => {
-  console.log('Success:', data);
-  alert('Payment made successfully')
-  window.location.href=" {%url 'store' %} "
-})
-.catch((error) => {
-  console.error('Error:', error);
-});
-
-        
-      }
-      
-    </script>
+        fetch(url, {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+        console.log('Success:', data);
+        alert('Payment made successfully')
+        window.location.href=" {%url 'store' %} "
+        })
+        .catch((error) => {
+        console.error('Error:', error);
+        });
+    }  
+</script>
 
 {% endblock %}
